@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="lodepng.h" />
+    <ClInclude Include="msvcrt.h" />
     <ClInclude Include="sidelib.h" />
     <ClInclude Include="typedef_structs.h" />
   </ItemGroup>

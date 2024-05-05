@@ -1,8 +1,10 @@
 #include "sidelib.h"
 
-SIDELIB_API int TestFunction() {
+
+SIDELIB_API int GC_Test() {
 	return 42;
 }
+
 
 BYTE* GC_LoadImage(const char* fullPathToImage) {
 	BYTE* image = NULL;

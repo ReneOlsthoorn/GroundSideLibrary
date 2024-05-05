@@ -12,6 +12,7 @@ typedef signed __int32 int32_t;
 typedef unsigned __int32 uint32_t;
 typedef signed __int64 int64_t;
 typedef unsigned __int64 uint64_t;
+typedef unsigned __int64 size_t;
 
 typedef uint8_t BYTE;
 typedef uint16_t Uint16;

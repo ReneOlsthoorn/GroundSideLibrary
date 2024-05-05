@@ -64,19 +64,16 @@ from here.*/
 static void* lodepng_malloc(size_t size)
 {
     return malloc(size);
-    //return GC_Alloc(size);
 }
 
 static void* lodepng_realloc(void* ptr, size_t new_size)
 {
     return realloc(ptr, new_size);
-    //return GC_Realloc(ptr, new_size);
 }
 
 static void lodepng_free(void* ptr)
 {
     free(ptr);
-    //GC_Free(ptr);
 }
 #else /*LODEPNG_COMPILE_ALLOCATORS*/
 void* lodepng_malloc(size_t size);
