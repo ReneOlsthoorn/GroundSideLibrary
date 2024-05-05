@@ -11,6 +11,6 @@
 
 
 #define SIDELIB_API __declspec(dllexport)
-extern "C" SIDELIB_API int GC_Test();
-extern "C" SIDELIB_API BYTE * GC_LoadImage(const char* fullPathToImage);
-extern "C" SIDELIB_API void GC_FreeImage(BYTE * image);
+extern "C" SIDELIB_API int sidelib_Test();
+extern "C" SIDELIB_API BYTE * sidelib_LoadImage(const char* fullPathToImage);
+extern "C" SIDELIB_API void sidelib_FreeImage(BYTE * image);

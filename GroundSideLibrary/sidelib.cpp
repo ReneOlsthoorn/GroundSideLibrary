@@ -1,12 +1,12 @@
 #include "sidelib.h"
 
 
-SIDELIB_API int GC_Test() {
+SIDELIB_API int sidelib_Test() {
 	return 42;
 }
 
 
-BYTE* GC_LoadImage(const char* fullPathToImage) {
+BYTE* sidelib_LoadImage(const char* fullPathToImage) {
 	BYTE* image = NULL;
 	unsigned int width, height;
 	lodepng_decode32_file(&image, &width, &height, fullPathToImage);
@@ -14,6 +14,6 @@ BYTE* GC_LoadImage(const char* fullPathToImage) {
 }
 
 
-void GC_FreeImage(BYTE* image) {
+void sidelib_FreeImage(BYTE* image) {
 	free(image);
 }
