@@ -1,6 +1,8 @@
+#include <windows.h>
+#include "lodepng.h"
 #include "sidelib.h"
-#include <stdio.h>
-//#include <malloc.h>
+#include <math.h>
+
 
 /*
   PI = 3.14159265358979323846, maar dat niet door een float exact benaderd worden.
@@ -12,12 +14,13 @@ const float TWO_PI = 2 * PI;  // 6.28
 const float HALF_PI = PI / 2.0;   // 1.57
 
 
+
 SIDELIB_API int sidelib_Test() {
 	return 42;
 }
 
 
-BYTE* sidelib_LoadImage(const char* fullPathToImage) {
+SIDELIB_API BYTE* sidelib_LoadImage(const char* fullPathToImage) {
 	BYTE* image = NULL;
 	unsigned int width, height;
 	lodepng_decode32_file(&image, &width, &height, fullPathToImage);
@@ -49,22 +52,12 @@ BYTE* sidelib_LoadAndExpandImage(const char* fullPathToImage, int expandNr) {
 }
 
 
-void sidelib_FreeImage(BYTE* image) {
+SIDELIB_API void sidelib_FreeImage(BYTE* image) {
 	free(image);
 }
 
 
-void sidelib_FlipRedAndGreenInImage(BYTE* image, int SizeX, int SizeY)
-{
-	for (int i = 0; i < SizeX * SizeY; i++) {
-		int tmp = image[(i * 4) + 2];
-		image[(i * 4) + 2] = image[(i * 4)];
-		image[(i * 4)] = tmp;
-	}
-}
-
-
-void sidelib_ConvertFonts(Uint32* source, BYTE* fontchar256, Uint16* fontchar32) {
+SIDELIB_API void sidelib_ConvertFonts(Uint32* source, BYTE* fontchar256, Uint16* fontchar32) {
 	// fontchar256: We convert to a 256x256 byte characterset, which contains 256 bytes for each character. The character is 16x16 bytes. Byte value 0 = background, value 255 = foreground.
 	// fontchar32:  We convert to a 2*16 byte characterset, which contains 32 bytes for each character. The character is 2x16 bytes. The first 2 bytes contain the 16 bits of the first row.
 	for (int c = 0; c < 256; c++) {
@@ -82,7 +75,7 @@ void sidelib_ConvertFonts(Uint32* source, BYTE* fontchar256, Uint16* fontchar32)
 }
 
 
-void sidelib_ConvertFont1024(Uint32* source, Uint32* fontchar1024, int nrRows) {
+SIDELIB_API void sidelib_ConvertFont1024(Uint32* source, Uint32* fontchar1024, int nrRows) {
 	int nrCharacters = nrRows * 16;
 	const int rowSizeInDwords = 16 * 16 * 16;
 	for (int c = 0; c < nrCharacters; c++) {
@@ -97,7 +90,18 @@ void sidelib_ConvertFont1024(Uint32* source, Uint32* fontchar1024, int nrRows) {
 	}
 }
 
-int sidelib_ApproxDistance(int dx, int dy)
+
+SIDELIB_API void sidelib_FlipRedAndGreenInImage(BYTE* image, int SizeX, int SizeY)
+{
+	for (int i = 0; i < SizeX * SizeY; i++) {
+		int tmp = image[(i * 4) + 2];
+		image[(i * 4) + 2] = image[(i * 4)];
+		image[(i * 4)] = tmp;
+	}
+}
+
+
+SIDELIB_API int sidelib_ApproxDistance(int dx, int dy)
 {
 	int min, max, approx;
 
@@ -119,7 +123,8 @@ int sidelib_ApproxDistance(int dx, int dy)
 	return ((approx + 512) >> 10);  // add 512 for proper rounding
 }
 
-float sidelib_ApproxDistanceFloat(float dx, float dy)
+
+SIDELIB_API float sidelib_ApproxDistanceFloat(float dx, float dy)
 {
 	// https://gamedev.stackexchange.com/questions/69241/how-to-optimize-the-distance-function
 	float min, max, approx;
@@ -142,7 +147,7 @@ float sidelib_ApproxDistanceFloat(float dx, float dy)
 }
 
 
-double sidelib_ApproxDivide(double y, double x) {
+SIDELIB_API double sidelib_ApproxDivide(double y, double x) {
 	// https://stackoverflow.com/questions/31031223/fast-approximate-float-division
 	// calculates y/x
 	union {
@@ -157,7 +162,7 @@ double sidelib_ApproxDivide(double y, double x) {
 }
 
 
-float sidelib_InvertFast(float x) {
+SIDELIB_API float sidelib_InvertFast(float x) {
 	union { float f; int i; } v;
 	float w, sx;
 	int m;
@@ -175,6 +180,7 @@ float sidelib_InvertFast(float x) {
 
 	return v.f * sx;
 }
+
 
 float sidelib_Atan2Approx(float y, float x)
 {
@@ -344,3 +350,4 @@ float sidelib_SinusApprox(float x) {
 float sidelib_CosinusApprox(float x) {
 	return sidelib_SinusApprox3(x + HALF_PI);
 }
+
