@@ -1,0 +1,1 @@
+lib.exe /def:ucrtbase.def /machine:x64 /out:ucrtbase.lib
